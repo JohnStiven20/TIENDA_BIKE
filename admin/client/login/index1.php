@@ -51,7 +51,7 @@
 
             $password = htmlspecialchars(sha1($_POST["password"]));
 
-            $check = $con->prepare("SELECT name, email, rol FROM usuarios WHERE email = ? AND password =?");
+            $check = $con->prepare("SELECT name, email, id_rol FROM usuarios WHERE email = ? AND password =?");
 
             //Utilizamos bind_param para evitar inyecciones de código sql
             //Asocio las variables PHP a los placeholders (?) de la consulta preparada, indicando el tipo de dato.
@@ -68,7 +68,7 @@
                 $check->bind_result($name, $emailDB, $rol);
                 $check->fetch(); //Extraigo la fila de resultados y lleno esas variables.
                 $_SESSION["name"] = $name;
-                $_SESSION["rol"] = $rol;
+                $_SESSION["id_rol"] = $rol;
                 $_SESSION["email"] = $emailDB;
                 header("Location: ../dashboard.php");
                 die();

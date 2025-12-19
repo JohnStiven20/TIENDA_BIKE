@@ -23,7 +23,7 @@ if (isset($_POST["nombre"])  && !empty($_POST["nombre"])) {
     $insert = "INSERT INTO clientes (nombre, apellidos, email, password , genero, direccion, codPostal, poblacion, provincia)  VALUES  ('$nombre', '$apellidos', '$email','$password' ,'$genero', '$direccion', '$codigo_postal', '$poblacion', '$provincia')";
 
     if (mysqli_query($con, $insert)) {
-        header("Location: ../../../dashboard.php?cli=0");
+        header("Location: ../../../dashboard.php?page=clientes");
         exit;
     } else {
         header("Location:../../../dashboard.php?cli=2");

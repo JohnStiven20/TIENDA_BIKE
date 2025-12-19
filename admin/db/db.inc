@@ -1,7 +1,7 @@
 <?php
 
 $host = "localhost";
-$nombreBS = "videojuego";
+$nombreBS = "queso1";
 $usuario = "root";
 $password = "";
 

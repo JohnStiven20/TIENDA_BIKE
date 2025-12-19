@@ -1,6 +1,6 @@
 <?php
 
-$consulta = "SELECT * FROM productos ORDER BY id ASC LIMIT 20";
+$consulta = "SELECT * FROM imagenes ORDER BY id ASC LIMIT 20";
 
 $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
 
@@ -8,9 +8,9 @@ $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
 
 
 <div class="container mt-4">
-    <h2 class="text-center mb-4">📋 Gestión de productos</h2>
+    <h2 class="text-center mb-4">📋 Gestión de Imagenes</h2>
     <div class="card shadow">
-        <div class="card-header bg-secondary text-white">📋 Lista de productos</div>
+        <div class="card-header bg-secondary text-white">📋 Lista de Imagenes</div>
         <div class="card-body">
             <?php if (isset($_GET["cli"])) { ?>
                 <?php if ($_GET["cli"] == 0) { ?>
@@ -36,10 +36,9 @@ $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
                 <thead class="table-dark">
                     <tr>
                         <th>id</th>
-                        <th>Nombre</th>
-                        <th>precio</th>
-                        <th>stock</th>
+                        <th>nombre</th>
                         <th>Fecha</th>
+
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -48,8 +47,6 @@ $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
                         <tr>
                             <td><?= htmlspecialchars($c['id']) ?></td>
                             <td><?= htmlspecialchars($c['nombre']) ?></td>
-                            <td><?= htmlspecialchars($c['precio']) ?></td>
-                            <td><?= htmlspecialchars($c['stock']) ?></td>
                             <td><?= htmlspecialchars($c['create_time']) ?></td>
                             <td>
                                 <a href="page/client/view/edit_cli.php?edit= <?= $c["id"] ?> " class="btn btn-sm btnwarning">✏️</a>

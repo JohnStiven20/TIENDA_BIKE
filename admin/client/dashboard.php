@@ -2,27 +2,14 @@
 session_start();
 
 include("../db/db_pdo.inc");
+include("../db/db.inc");
+
+
 include("security/session.php");
-
-
-$clientes = $pdo->query("SELECT * FROM clientes ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
 
 $nombre = $_SESSION["name"];
 $rol = $_SESSION["rol"];
-
-// Eliminar cliente -> Si existe la variable eliminar, eliminamos al
-//cliente con id pasado en esta variable
-
-// if (isset($_GET["eliminar"])) {
-//     $id = intval($_GET['eliminar']);
-//     $pdo->prepare("DELETE FROM clientes WHERE id = ?")->execute([$id]);
-//     header("Location: gestion_clientes.php");
-//     exit;
-// }
-
-
-$page = $_GET['page'] ?? 'clientes';
-
+$page = $_GET['page'] ?? 'inicio';
 
 ?>
 
@@ -32,10 +19,12 @@ $page = $_GET['page'] ?? 'clientes';
 <head>
     <meta charset="UTF-8">
     <title>Gestión de Clientes</title>
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
 
     <style>
+
+        
         img {
             height: 40px;
             width: 40px;
@@ -72,6 +61,7 @@ $page = $_GET['page'] ?? 'clientes';
         .opcion :hover {
             color: white;
         }
+
         .opcion a {
             color: black;
         }
@@ -100,7 +90,7 @@ $page = $_GET['page'] ?? 'clientes';
                         <?= $rol == 1 ? "Administrador" : "Usuario" ?>
                     </div>
                 </div>
-                <!-- Botón circular con ícono -->
+
                 <button class="btn btn-danger align-self-center rounded-circle d-flex justify-content-center align-items-center" style="width: 60px; height: 60px;" aria-label="Cerrar sesión">
                     <a href="" style="text-decoration: none; color: white;">Salir</a>
                 </button>
@@ -116,32 +106,46 @@ $page = $_GET['page'] ?? 'clientes';
                         <a href="dashboard.php?page=clientes">Clientes</a>
                     </li>
                     <li class="opcion">
-                        <a href="dashboard.php?page=productos">Productos</a>
+                        <a href="dashboard.php?page=productos">Pedidos</a>
                     </li>
                     <li class="opcion">
-                        <a href="dashboard.php?page=pedidos">Pedidos</a>
+                        <a href="dashboard.php?page=pedidos">Productos</a>
+                    </li>
+                    <li class="opcion">
+                        <a href="dashboard.php?page=inicio">Inicio</a>
+                    </li>
+                     <li class="opcion">
+                        <a href="dashboard.php?page=imagen">Imagenes</a>
                     </li>
                 </ul>
             </div>
         </div>
 
 
-        <div class="flex-grow-1 p-4">
+        <div class="flex-grow-1 p-4 table-responsive" style="height: 100% !important;">
             <?php
             switch ($page) {
+                case 'inicio':
+                    include("page/start/startPage.php");
+                    break;
                 case 'clientes':
                     include "page/client/view/clientes.php";
                     break;
-                case 'productos':
+                case 'pedidos':
                     include "page/orders/pedidos.php";
                     break;
-                case 'pedidos':
+                case 'productos':
                     include "page/product/productos.php";
                     break;
+                 case 'imagen':
+                    include "page/image/imagePage.php";
+                    break;
+                default:
+                    include("page/start/startPage.php");
+                    break;
+            
             }
             ?>
         </div>
-
 </body>
-
 </html>

@@ -2,7 +2,7 @@
 
 $host = "localhost"; // Dirección del servidor
 $port = "3307";      // Puerto del servidor MySQL (por defecto 3306)
-$nombreBD = "videojuego"; // Nombre de la BD
+$nombreBD = "queso1"; // Nombre de la BD
 $usuario = "root";   // Usuario con acceso a la BD
 $password = "";      // Contraseña del usuario
 

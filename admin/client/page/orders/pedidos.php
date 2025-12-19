@@ -1,8 +1,33 @@
+<?php
+
+
+$consulta = "";
+
+
+if (isset($_SESSION["filtros_pedidos"])) {
+
+    if (isset($_SESSION["filtros_pedidos"]["id_cliente"])) {
+        $consulta = "SELECT pedidos.* FROM pedidos " .
+            " JOIN clientes ON pedidos.id_cliente = clientes.id " .
+            " WHERE clientes.id = '" .  $_SESSION["filtros_pedidos"]["id_cliente"]  . "'";
+    } else {
+        $consulta = "SELECT * FROM pedidos ORDER BY id ASC LIMIT 20";
+    }
+} else {
+    $consulta = "SELECT * FROM pedidos ORDER BY id ASC LIMIT 20";
+}
+
+
+$clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+
+
 <div class="container mt-4">
-    <h2 class="text-center mb-4">📋 Gestión de Productos</h2>
+    <h2 class="text-center mb-4">📋 Gestión de Pedidos</h2>
     <div class="card shadow">
-        <div class="card-header bg-secondary text-white">📋 Lista de productos</div>
-        <div class="card-body">
+        <div class="card-header bg-secondary text-white">📋 Lista de Pedidos</div>
+        <div class="card-body d-flex flex-column gap-2">
             <?php if (isset($_GET["cli"])) { ?>
                 <?php if ($_GET["cli"] == 0) { ?>
                     <div class="alert alert-success">
@@ -23,33 +48,65 @@
             <div class="row mb-3 me-2 float-end">
                 <a href="page/client/view/insert_cli.php" class="btn btn-success">➕ Nuevo Cliente</a>
             </div>
+
+            <div class="card p-3 mb-3 text-center">
+                <h3 class="mb-3">Filtros</h3>
+
+                <!-- NO SE SI PONER EN LA PROPIEDAD NAME EL VALOR NOMBRE  PORQUE VA UTILIZAR VARIAS VECES -->
+
+                <form class="row g-3 align-items-end justify-content-center" action="page/client/services/filtros.php" method="post">
+                    <div class="col-12 col-md-4 text-start">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            class="form-control"
+                            placeholder="Nombre" name="nombre">
+                    </div>
+
+                    <div class="col-12 col-md-4 text-start">
+                        <label for="codigoPostal" class="form-label">Código Postal</label>
+                        <input
+                            type="text"
+                            id="codigoPostal"
+                            class="form-control"
+                            placeholder="Código Postal" name="codigo_postal">
+                    </div>
+
+                    <div class="col-12 col-md-4 text-start">
+                        <label for="poblacion" class="form-label">Población</label>
+                        <input
+                            type="text"
+                            id="poblacion"
+                            class="form-control"
+                            placeholder="Población" name="poblacion">
+                    </div>
+                    <input type="hidden" name="filtros" value="1">
+                    <div class="col-12 text-end">
+                        <button class="btn btn-success" style="width: 100px !important;" type="submit">Filtrar</button>
+                        <a href="page/orders/services/limpiar_filtros.php" class="btn btn-dark">Limpiar filtros</a>
+                    </div>
+                </form>
+            </div>
+
+
+
             <table class="table table-striped table-hover align-middle">
                 <thead class="table-dark">
                     <tr>
+                        <th>id</th>
                         <th>Codigo</th>
-                        <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th>Email</th>
-                        <th>Género</th>
-                        <th>Dirección</th>
-                        <th>Código Postal</th>
-                        <th>Población</th>
-                        <th>Provincia</th>
+                        <th>Fecha</th>
+
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($clientes as $c): ?>
                         <tr>
-                            <td><?= $c['id'] ?></td>
-                            <td><?= htmlspecialchars($c['nombre']) ?></td>
-                            <td><?= htmlspecialchars($c['apellidos']) ?></td>
-                            <td><?= htmlspecialchars($c['email']) ?></td>
-                            <td><?= $c['genero'] ?></td>
-                            <td><?= htmlspecialchars($c['direccion']) ?></td>
-                            <td><?= $c['codpostal'] ?></td>
-                            <td><?= htmlspecialchars($c['poblacion']) ?></td>
-                            <td><?= htmlspecialchars($c['provincia']) ?></td>
+                            <td><?= htmlspecialchars($c['id']) ?></td>
+                            <td><?= htmlspecialchars($c['codigo']) ?></td>
+                            <td><?= htmlspecialchars($c['create_time']) ?></td>
                             <td>
                                 <a href="page/client/view/edit_cli.php?edit= <?= $c["id"] ?> " class="btn btn-sm btnwarning">✏️</a>
                                 <button type="button" class="btn btn-danger" onclick="eliminarCliente(<?= $c['id']; ?>)">🗑️</button>
@@ -92,6 +149,5 @@
             window.location.href = './page/client/services/delete.php?eliminar=' + numcliente;
             modal.hide();
         };
-}
-    
+    }
 </script>

@@ -1,0 +1,18 @@
+.nav-card-body {
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-card:hover .nav-card-body {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+.nav-card-icon {
+  display: block;
+  margin: 0 auto;
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
