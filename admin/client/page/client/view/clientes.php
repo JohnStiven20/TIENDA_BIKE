@@ -140,7 +140,7 @@ $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?= htmlspecialchars($c['poblacion']) ?></td>
                                 <td><?= htmlspecialchars($c['provincia']) ?></td>
                                 <td>
-                                    <a href="page/client/view/edit_cli.php?edit= <?= $c["id"] ?> " class="btn btn-sm btn-info">✏️</a>
+                                    <a href="page/client/view/edit_cli.php?edit=<?= $c['id'] ?>" class="btn btn-sm btn-info">✏️</a>
                                     <button type="button" class="btn btn-danger" onclick="eliminarCliente(<?= $c['id']; ?>)">🗑️</button>
                                     <a href="page/client/services/navegarPedido.php?id=  <?= $c["id"] ?>"  class="btn btn-info">📦</a>
                                 </td>

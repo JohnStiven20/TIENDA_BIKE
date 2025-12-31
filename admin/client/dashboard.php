@@ -8,7 +8,7 @@ include("../db/db.inc");
 include("security/session.php");
 
 $nombre = $_SESSION["name"];
-$rol = $_SESSION["rol"];
+$rol = $_SESSION["id_rol"];
 $page = $_GET['page'] ?? 'inicio';
 
 ?>

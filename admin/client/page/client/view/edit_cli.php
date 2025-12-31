@@ -43,7 +43,7 @@ include("../../../security/session.php");
             if (mysqli_num_rows($res) > 0) {
                 $cliente = mysqli_fetch_assoc($res);
             } else {
-                header("Location: gestion_clientes.php");
+                header("Location: ../../../dashboard.php?page=clientes");
             }
         }
         ?>
@@ -52,7 +52,7 @@ include("../../../security/session.php");
         <header class="container header w-100">
             <h1 class="p-2">Registro de Cliente con Mysqli</h1>
         </header>
-        <form class="container d-flex flex-column p-3 gap-3 w-100" action="" method="post">
+        <form class="container d-flex flex-column p-3 gap-3 w-100" action="../services/update.php" method="post">
             <div class="flex-row d-flex gap-5 w-100 mb-3 mt-3">
                 <div class="w-50">
                     <label class="form-label" for="">Nombre</label>
@@ -95,6 +95,7 @@ include("../../../security/session.php");
                     <label class="form-label" for="">Provincia</label>
                     <input type="text" class="form-control" name="provincia" value="<?= $cliente["provincia"] ?>">
                 </div>
+                <input type="hidden" name="id" value="<?= $cliente["id"] ?>">
             </div>
             <div class="flex-row d-flex gap-5 w-100 mb-3">
                 <div class="w-25">

@@ -7,7 +7,7 @@
 // }
 
 if (!isset($_SESSION["name"]) && !isset($_SESSION["email"]) && !isset($_SESSION["rol"])) {
-    header("Location: /ud2/TIENDA_BIKE/admin/client/login/index1.php");
+    header("Location: ". BASE_URL ."/admin/client/login/index1.php");
     exit;
 }
 
