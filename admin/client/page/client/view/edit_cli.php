@@ -97,9 +97,12 @@ include("../../../security/session.php");
                 </div>
                 <input type="hidden" name="id" value="<?= $cliente["id"] ?>">
             </div>
-            <div class="flex-row d-flex gap-5 w-100 mb-3">
-                <div class="w-25">
+            <div class="flex-row d-flex gap-3 w-100 mb-3">
+                <div>
                     <button type="submit" class="btn btn-success">Actualizar cliente</button>
+                </div>
+                <div>
+                    <a href="../../../dashboard.php?page=clientes" class="btn btn-secondary">Volver a la lista de clientes</a>
                 </div>
             </div>
         </form>

@@ -13,6 +13,9 @@ if (isset($_POST["nombre"])  && !empty($_POST["nombre"])) {
     $nombre = validaciones("nombre");
     $apellidos = validaciones("apellidos");
     $email = validaciones("email");
+
+    
+
     $genero = validaciones(("genero"));
     $direccion = validaciones("direccion");
     $codigo_postal = validaciones("codigo_postal");

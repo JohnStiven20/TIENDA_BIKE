@@ -5,7 +5,7 @@ $consulta = "";
 if (isset($_SESSION["filtros_clientes"])) {
 
     $filtrado_estado = true;
-    $consulta = "SELECT * FROM clientes";
+    $consulta = "SELECT c.* , COUNT(pedidos.id) AS total_pedidos FROM clientes c LEFT JOIN pedidos ON pedidos.id_cliente = c.id";
     $condiciones = [];
 
     if (!empty($_SESSION["filtros_clientes"]["nombre"])) {
@@ -21,20 +21,18 @@ if (isset($_SESSION["filtros_clientes"])) {
     }
 
     if (!empty($condiciones)) {
-        $consulta .= " WHERE " . implode(" AND ", $condiciones) . "ORDER BY id DESC LIMIT 20";
+        $consulta .= " WHERE " . implode(" AND ", $condiciones) . " ORDER BY c.id DESC LIMIT 20";
     } else {
-        $consulta .= " ORDER BY id DESC LIMIT 20";
+        $consulta .= " GROUP BY c.id HAVING c.id IS NOT NULL ORDER BY c.id ASC LIMIT 20";
         $filtrado_estado = false;
     }
-
 } else {
-    $consulta = "SELECT * FROM clientes ORDER BY id ASC LIMIT 20";
+    $consulta = "SELECT c.*, COUNT(pedidos.id) AS total_pedidos FROM clientes c LEFT JOIN pedidos ON pedidos.id_cliente = c.id GROUP BY c.id HAVING c.id  IS NOT NULL ORDER BY c.id ASC LIMIT 20";
     $filtrado_estado = false;
 }
 
 
-$clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
-
+$clientes = $pdo-> query($consulta)-> fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -70,8 +68,6 @@ $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
 
             <div class="card p-3 mb-3 text-center">
                 <h3 class="mb-3">Filtros</h3>
-
-                <!-- NO SE SI PONER EN LA PROPIEDAD NAME EL VALOR NOMBRE  PORQUE VA UTILIZAR VARIAS VECES -->
 
                 <form class="row g-3 align-items-end justify-content-center" action="page/client/services/filtros.php" method="post">
                     <div class="col-12 col-md-4 text-start">
@@ -110,46 +106,54 @@ $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
                 </form>
             </div>
 
+            <?php if (count($clientes) > 0 && $clientes[0]['id'] != null) { ?>   
 
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Apellidos</th>
-                            <th>Email</th>
-                            <th>Género</th>
-                            <th>Dirección</th>
-                            <th>Código Postal</th>
-                            <th>Población</th>
-                            <th>Provincia</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($clientes as $c): ?>
+    
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-dark">
                             <tr>
-                                <td><?= $c['id'] ?></td>
-                                <td><?= htmlspecialchars($c['nombre']) ?></td>
-                                <td><?= htmlspecialchars($c['apellidos']) ?></td>
-                                <td><?= htmlspecialchars($c['email']) ?></td>
-                                <td><?= $c['genero'] ?></td>
-                                <td><?= htmlspecialchars($c['direccion']) ?></td>
-                                <td><?= $c['codpostal'] ?></td>
-                                <td><?= htmlspecialchars($c['poblacion']) ?></td>
-                                <td><?= htmlspecialchars($c['provincia']) ?></td>
-                                <td>
-                                    <a href="page/client/view/edit_cli.php?edit=<?= $c['id'] ?>" class="btn btn-sm btn-info">✏️</a>
-                                    <button type="button" class="btn btn-danger" onclick="eliminarCliente(<?= $c['id']; ?>)">🗑️</button>
-                                    <a href="page/client/services/navegarPedido.php?id=  <?= $c["id"] ?>"  class="btn btn-info">📦</a>
-                                </td>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Apellidos</th>
+                                <th>Email</th>
+                                <th>Género</th>
+                                <th>Dirección</th>
+                                <th>Código Postal</th>
+                                <th>Población</th>
+                                <th>Provincia</th>
+                                <th>Acciones</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-
-            </div>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($clientes as $c): ?>
+                                <tr>
+                                    <td><?= $c['id'] ?></td>
+                                    <td><?= htmlspecialchars($c['nombre']) ?></td>
+                                    <td><?= htmlspecialchars($c['apellidos']) ?></td>
+                                    <td><?= htmlspecialchars($c['email']) ?></td>
+                                    <td><?= $c['genero'] ?></td>
+                                    <td><?= htmlspecialchars($c['direccion']) ?></td>
+                                    <td><?= $c['codpostal'] ?></td>
+                                    <td><?= htmlspecialchars($c['poblacion']) ?></td>
+                                    <td><?= htmlspecialchars($c['provincia']) ?></td>
+                                    <td>
+                                        <a href="page/client/view/edit_cli.php?edit=<?= $c['id'] ?>" class="btn btn-sm btn-info">✏️</a>
+                                        <button type="button" class="btn btn-danger" onclick="eliminarCliente(<?= $c['id']; ?>)">🗑️</button>
+                                        <?php if (isset($c['total_pedidos']) && $c['total_pedidos'] > 0) { ?>
+                                            <a href="page/client/services/navegarPedido.php?id=<?= $c["id"] ?>" class="btn btn-info">📦</a>
+                                        <?php } ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php } else { ?>
+                <div class="card p-3 mb-3 text-center d-flex flex-column justify-content-center" style="height: 400px !important;">
+                    <p>No hay clientes registrados.</p>
+                </div>
+            <?php } ?>
         </div>
     </div>
 </div>

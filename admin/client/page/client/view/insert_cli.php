@@ -19,6 +19,7 @@ include("../../../security/session.php");
             background-color: blue !important;
             color: white !important;
         }
+        
     </style>
 
 </head>
@@ -77,9 +78,12 @@ include("../../../security/session.php");
                     <input type="text" class="form-control" name="provincia">
                 </div>
             </div>
-            <div class="flex-row d-flex gap-5 w-100 mb-3">
-                <div class="w-25">
+            <div class="flex-row d-flex gap-3 w-100 mb-3">
+                <div>
                     <button type="submit" class="btn btn-success">Agregar cliente</button>
+                </div>
+                <div>
+                    <a href="../../../dashboard.php?page=clientes" class="btn btn-secondary">Volver a la lista de clientes</a>
                 </div>
             </div>
         </form>

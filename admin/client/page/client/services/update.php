@@ -10,7 +10,7 @@ include("../../../utils/validaciones.php");
 
 
 $nombre = validaciones("nombre");
-$codigo_postal = validaciones("apellidos");
+$apellidos = validaciones("apellidos");
 $email = validaciones("email");
 $genero = validaciones("genero");
 $direccion = validaciones("direccion");
