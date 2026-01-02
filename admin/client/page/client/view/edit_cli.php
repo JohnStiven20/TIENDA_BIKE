@@ -35,7 +35,7 @@ include("../../../security/session.php");
         <?php
 
         if (isset($_GET["edit"])) {
-            
+
             $id = intval($_GET["edit"]);
             $sql = "SELECT * FROM clientes WHERE id = $id";
             $res = mysqli_query($con, $sql);
@@ -43,14 +43,20 @@ include("../../../security/session.php");
             if (mysqli_num_rows($res) > 0) {
                 $cliente = mysqli_fetch_assoc($res);
             } else {
-                header("Location: ../../../dashboard.php?page=clientes");
+                // header(header: "Location: ../../../dashboard.php?page=clientes");
             }
         }
+
         ?>
 
+        <?php if (isset($_GET["error"]) && !empty($_GET["error"])) { ?>
+            <div class="btn bg-danger mb-3">
+                <p style="margin: 10px auto !important; ">El correo ya existe</p>
+            </div>
+        <?php } ?>
 
         <header class="container header w-100">
-            <h1 class="p-2">Registro de Cliente con Mysqli</h1>
+            <h1 class="p-2">Actualizar Cliente</h1>
         </header>
         <form class="container d-flex flex-column p-3 gap-3 w-100" action="../services/update.php" method="post">
             <div class="flex-row d-flex gap-5 w-100 mb-3 mt-3">

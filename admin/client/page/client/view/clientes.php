@@ -108,7 +108,6 @@ $clientes = $pdo-> query($consulta)-> fetchAll(PDO::FETCH_ASSOC);
 
             <?php if (count($clientes) > 0 && $clientes[0]['id'] != null) { ?>   
 
-    
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead class="table-dark">
