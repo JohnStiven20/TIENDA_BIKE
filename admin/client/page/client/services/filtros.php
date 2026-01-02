@@ -4,6 +4,7 @@ session_start();
 
 include("../../../utils/validaciones.php");
 
+
 $nombre = validaciones("nombre");
 $codigo_postal = validaciones("codigo_postal");
 $poblacion = validaciones("poblacion");

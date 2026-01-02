@@ -19,7 +19,6 @@ include("../../../security/session.php");
             background-color: blue !important;
             color: white !important;
         }
-        
     </style>
 
 </head>
@@ -27,12 +26,28 @@ include("../../../security/session.php");
 <body>
     <div class="container mt-5 card p-0">
 
-        <?php if(isset($_GET["error"]) && !empty($_GET["error"])) { ?>
-            <div class="btn bg-danger mb-3">
-                <p style="margin: 10px auto !important; ">El correo ya existe</p>
-            </div>
+        <?php if (isset($_GET["error"]) && !empty($_GET["error"])) { ?>
+            <?php
+            $valor = $_GET["error"];
+            ?>
+
+            <?php if ($valor == 1) {  ?>
+                <div class="btn btn-danger mb-1">
+                    <p>Formato de correo incorrecto</p>
+                </div>
+            <?php } else if ($valor == 2) { ?>
+                <div class="btn btn-danger mb-1">
+                    <p>El correo ya existe</p>
+                </div>
+            <?php  } else if ($valor == 3) { ?>
+                <div class="btn btn-danger mb-1">
+                    <p>Algun campo vacio o vacios</p>
+                </div>
+            <?php } ?>
+
+
         <?php } ?>
-        
+
         <header class="container header w-100">
             <h1 class="p-2">Registrar Cliente</h1>
         </header>

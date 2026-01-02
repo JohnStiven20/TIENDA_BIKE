@@ -6,39 +6,41 @@
 
 include("../../../../db/db.inc");
 include("../../../utils/validaciones.php");
-include("../view/insert_cli.php?error=1");
 
+$direccion = "../view/insert_cli.php?error=3";
 
-if (isset($_POST["nombre"])  && !empty($_POST["nombre"])) {
+$nombre = validaciones("nombre", $direccion);
+$apellidos = validaciones("apellidos", $direccion);
+$email = validaciones("email", $direccion);
 
-    $nombre = validaciones("nombre");
-    $apellidos = validaciones("apellidos");
-    $email = validaciones("email");
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    header("Location: ../view/insert_cli.php?error=1");
+    exit;
+}
 
-    $sql_validation_email = "SELECT id FROM clientes WHERE email='$email'";
+$sql_validation_email = "SELECT id FROM clientes WHERE email='$email'";
 
-    $rows = mysqli_query($con, $sql_validation_email);
+$rows = mysqli_query($con, $sql_validation_email);
 
-    if (mysqli_num_rows($rows) > 0) {
-        header("Location: ../view/insert_cli.php?error=1");
-        exit();
-    }
+if (mysqli_num_rows($rows) > 0) {
+    header("Location: ../view/insert_cli.php?error=2");
+    exit();
+}
 
-    $genero = validaciones(("genero"));
-    $direccion = validaciones("direccion");
-    $codigo_postal = validaciones("codigo_postal");
-    $poblacion = validaciones("poblacion");
-    $provincia = validaciones("provincia");
-    $password = validaciones("password");
+$genero = validaciones("genero", $direccion);
+$direccion = validaciones("direccion", $direccion);
+$codigo_postal = validaciones("codigo_postal", $direccion);
+$poblacion = validaciones("poblacion", $direccion);
+$provincia = validaciones("provincia", $direccion);
+$password = validaciones("password", $direccion);
 
-    $insert = "INSERT INTO clientes (nombre, apellidos, email, password , genero, direccion, codPostal, poblacion, provincia)  VALUES  ('$nombre', '$apellidos', '$email','$password' ,'$genero', '$direccion', '$codigo_postal', '$poblacion', '$provincia')";
+$insert = "INSERT INTO clientes (nombre, apellidos, email, password , genero, direccion, codPostal, poblacion, provincia)  VALUES  ('$nombre', '$apellidos', '$email','$password' ,'$genero', '$direccion', '$codigo_postal', '$poblacion', '$provincia')";
 
-    if (mysqli_query($con, $insert)) {
-        header("Location: ../../../dashboard.php?page=clientes");
-        exit;
-    } else {
-        header("Location:../../../dashboard.php?cli=2");
-    }
+if (mysqli_query($con, $insert)) {
+    header("Location: ../../../dashboard.php?page=clientes&cli=0");
+    exit;
+} else {
+    header("Location:../../../dashboard.php?cli=2");
 }
 
 

@@ -3,22 +3,35 @@
 
 // PUEDE QUE TENGA QUE IMPLEMENTAR LOS HTTP PARA VALIDAR LA ENTRADAS DE CLIENTES NO AUTORIZADOS
 
+
 session_start();
 
 include("../../../../db/db.inc");
 include("../../../utils/validaciones.php");
 
-$estado = false;
+// NO PODRAS ACTUAZALIZAR LOS DATOS DE UN CLIENTE SI ALGUN CAMPO ESTA VACIO, YA QUE 
+// SE NECESITA LA INFORMACION PARA ENTREGAR EL PEDIDO Y ESTE MISMA LOGICA APLICAR PARA
+// INSERTAR NUEVOS CLIENTES
 
-$nombre = validaciones("nombre");
-$apellidos = validaciones(campo: "apellidos");
-$email = validaciones("email");
-$genero = validaciones("genero");
-$direccion = validaciones("direccion");
-$codigo_postal = validaciones("codigo_postal");
-$provincia = validaciones("provincia");
-$poblacion = validaciones("poblacion");
+
 $id = $_POST["id"];
+
+$direccion = "../view/edit_cli.php?edit=$id&error=3";
+
+$nombre = validaciones("nombre", $direccion);
+$apellidos = validaciones("apellidos", $direccion);
+$email = validaciones("email", $direccion);
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    header("Location: ../view/edit_cli.php?edit=$id&error=2");
+    exit;
+}
+
+$genero = validaciones("genero", $direccion);
+$direccion = validaciones("direccion", $direccion);
+$codigo_postal = validaciones("codigo_postal", $direccion);
+$provincia = validaciones("provincia", $direccion);
+$poblacion = validaciones("poblacion", $direccion);
 
 $sql_actulizar_con_mismo_correo = "SELECT email FROM clientes WHERE id='$id'";
 
@@ -55,5 +68,3 @@ if ($email === $datos[0][0]) {
     }
 }
 
-header("Location: ../../../dashboard.php?page=clientes");
-exit;

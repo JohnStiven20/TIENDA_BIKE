@@ -106,10 +106,10 @@ $page = $_GET['page'] ?? 'inicio';
                         <a href="dashboard.php?page=clientes">Clientes</a>
                     </li>
                     <li class="opcion">
-                        <a href="dashboard.php?page=productos">Pedidos</a>
+                        <a href="dashboard.php?page=productos">Productos</a>
                     </li>
                     <li class="opcion">
-                        <a href="dashboard.php?page=pedidos">Productos</a>
+                        <a href="dashboard.php?page=pedidos">Pedidos</a>
                     </li>
                     <li class="opcion">
                         <a href="dashboard.php?page=inicio">Inicio</a>
@@ -135,7 +135,7 @@ $page = $_GET['page'] ?? 'inicio';
                     include "page/orders/pedidos.php";
                     break;
                 case 'productos':
-                    include "page/product/productos.php";
+                    include "page/product/view/productos.php";
                     break;
                  case 'imagen':
                     include "page/image/imagePage.php";

@@ -11,26 +11,10 @@ $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
     <h2 class="text-center mb-4">📋 Gestión de productos</h2>
     <div class="card shadow">
         <div class="card-header bg-secondary text-white">📋 Lista de productos</div>
+
         <div class="card-body">
-            <?php if (isset($_GET["cli"])) { ?>
-                <?php if ($_GET["cli"] == 0) { ?>
-                    <div class="alert alert-success">
-                        Todo Correcto
-                    </div>
-                <?php } ?>
-                <?php if ($_GET["cli"] == 1) { ?>
-                    <div class="alert alert-warning">
-                        Ya existe
-                    </div>
-                <?php } ?>
-                <?php if ($_GET["cli"] == 2) { ?>
-                    <div class="alert alert-danger">
-                        Error en el ingreso
-                    </div>
-                <?php } ?>
-            <?php } ?>
             <div class="row mb-3 me-2 float-end">
-                <a href="page/client/view/insert_cli.php" class="btn btn-success">➕ Nuevo Cliente</a>
+                <a href="page/client/view/insert_cli.php" class="btn btn-success">➕ Nuevo Producto</a>
             </div>
             <table class="table table-striped table-hover align-middle">
                 <thead class="table-dark">
@@ -72,7 +56,8 @@ $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
                 <button type="button" class="btn-close" data-bsdismiss="modal"></button>
             </div>
             <div class="modal-body">
-                ¿Seguro que deseas eliminar este Cliente?
+                <p> ¿Seguro que deseas eliminar este producto?</p>
+                <p>Eliminaras sus imagenes asociadas a este producto</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bsdismiss="modal">Cancelar</button>
@@ -86,11 +71,15 @@ $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
 
 <script>
     function eliminarCliente(numcliente) {
+
+
+
         const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+
         modal.show();
 
         document.getElementById('confirmDeleteBtn').onclick = () => {
-            window.location.href = './page/client/services/delete.php?eliminar=' + numcliente;
+            window.location.href = './page/product/services/delete.php?eliminar=' + numcliente;
             modal.hide();
         };
     }

@@ -21,7 +21,7 @@ if (isset($_SESSION["filtros_clientes"])) {
     }
 
     if (!empty($condiciones)) {
-        $consulta .= " WHERE " . implode(" AND ", $condiciones) . " ORDER BY c.id DESC LIMIT 20";
+        $consulta .= " WHERE " . implode(" AND ", $condiciones) . "GROUP BY c.id ORDER BY c.id DESC LIMIT 20";
     } else {
         $consulta .= " GROUP BY c.id HAVING c.id IS NOT NULL ORDER BY c.id ASC LIMIT 20";
         $filtrado_estado = false;
@@ -32,7 +32,8 @@ if (isset($_SESSION["filtros_clientes"])) {
 }
 
 
-$clientes = $pdo-> query($consulta)-> fetchAll(PDO::FETCH_ASSOC);
+$clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
+
 
 ?>
 
@@ -44,19 +45,27 @@ $clientes = $pdo-> query($consulta)-> fetchAll(PDO::FETCH_ASSOC);
         <div class="card-body table">
 
             <?php if (isset($_GET["cli"])) { ?>
+
                 <?php if ($_GET["cli"] == 0) { ?>
                     <div class="alert alert-success">
                         Todo Correcto
                     </div>
                 <?php } ?>
-                <?php if ($_GET["cli"] == 1) { ?>
-                    <div class="alert alert-warning">
-                        Ya existe
-                    </div>
-                <?php } ?>
                 <?php if ($_GET["cli"] == 2) { ?>
                     <div class="alert alert-danger">
                         Error en el ingreso
+                    </div>
+                <?php } else if ($_GET["cli"] == 3) { ?>
+                    <div class="alert alert-danger text-center">
+                        Error en la edicion del cliente falta el id, id invalido o id inexistente
+                    </div>
+                <?php } else if ($_GET["cli"] == 4) { ?>
+                    <div class="alert alert-danger text-center">
+                        No se puede borrar: el cliente tiene pedidos en proceso. Elimine los pedidos primero. 
+                    </div>
+                <?php } else if($_GET["cli"] == 5) { ?>
+                    <div class="text-center mb-2" style="background-color: greenyellow !important; padding: 20px !important; border-radius: 10px !important;">
+                        Eliminado correctamente
                     </div>
                 <?php } ?>
             <?php } ?>
@@ -106,7 +115,7 @@ $clientes = $pdo-> query($consulta)-> fetchAll(PDO::FETCH_ASSOC);
                 </form>
             </div>
 
-            <?php if (count($clientes) > 0 && $clientes[0]['id'] != null) { ?>   
+            <?php if (count($clientes) > 0 && $clientes[0]['id'] != null) { ?>
 
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">

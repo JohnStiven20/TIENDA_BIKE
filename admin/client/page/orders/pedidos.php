@@ -7,9 +7,11 @@ $consulta = "";
 if (isset($_SESSION["filtros_pedidos"])) {
 
     if (isset($_SESSION["filtros_pedidos"]["id_cliente"])) {
+
         $consulta = "SELECT pedidos.* FROM pedidos " .
             " JOIN clientes ON pedidos.id_cliente = clientes.id " .
             " WHERE clientes.id = '" .  $_SESSION["filtros_pedidos"]["id_cliente"]  . "'";
+
     } else {
         $consulta = "SELECT * FROM pedidos ORDER BY id ASC LIMIT 20";
     }
@@ -54,32 +56,23 @@ $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
 
                 <!-- NO SE SI PONER EN LA PROPIEDAD NAME EL VALOR NOMBRE  PORQUE VA UTILIZAR VARIAS VECES -->
 
-                <form class="row g-3 align-items-end justify-content-center" action="page/client/services/filtros.php" method="post">
+                <form class="row g-3 align-items-end justify-content-center" action="page/orders/services/filtros.php" method="post">
                     <div class="col-12 col-md-4 text-start">
-                        <label for="nombre" class="form-label">Nombre</label>
+                        <label for="nombre" class="form-label">Email de Cliente </label>
                         <input
                             type="text"
                             id="nombre"
                             class="form-control"
-                            placeholder="Nombre" name="nombre">
+                            placeholder="Nombre" name="email">
                     </div>
 
                     <div class="col-12 col-md-4 text-start">
-                        <label for="codigoPostal" class="form-label">Código Postal</label>
+                        <label for="codigoPostal" class="form-label">Código de pedido</label>
                         <input
                             type="text"
                             id="codigoPostal"
                             class="form-control"
-                            placeholder="Código Postal" name="codigo_postal">
-                    </div>
-
-                    <div class="col-12 col-md-4 text-start">
-                        <label for="poblacion" class="form-label">Población</label>
-                        <input
-                            type="text"
-                            id="poblacion"
-                            class="form-control"
-                            placeholder="Población" name="poblacion">
+                            placeholder="Código Postal" name="codigo_pedido">
                     </div>
                     <input type="hidden" name="filtros" value="1">
                     <div class="col-12 text-end">

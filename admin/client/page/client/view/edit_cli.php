@@ -34,7 +34,7 @@ include("../../../security/session.php");
 
         <?php
 
-        if (isset($_GET["edit"])) {
+        if (isset($_GET["edit"]) && !empty($_GET["edit"])) {
 
             $id = intval($_GET["edit"]);
             $sql = "SELECT * FROM clientes WHERE id = $id";
@@ -43,16 +43,33 @@ include("../../../security/session.php");
             if (mysqli_num_rows($res) > 0) {
                 $cliente = mysqli_fetch_assoc($res);
             } else {
-                // header(header: "Location: ../../../dashboard.php?page=clientes");
+                header(header: "Location: ../../../dashboard.php?page=clientes&cli=3");
             }
+        } else {
+            header("Location: ../../../dashboard.php?page=clientes&cli=3");
+            exit;
         }
 
         ?>
 
         <?php if (isset($_GET["error"]) && !empty($_GET["error"])) { ?>
-            <div class="btn bg-danger mb-3">
-                <p style="margin: 10px auto !important; ">El correo ya existe</p>
-            </div>
+            <?php
+            $valor = $_GET["error"];
+            ?>
+
+            <?php if ($valor == 1) {  ?>
+                <div class="btn btn-danger mb-1">
+                    <p>El correo ya existe</p>
+                </div>
+            <?php } else if ($valor == 2) { ?>
+                <div class="btn btn-danger mb-1">
+                    <p>Formato incorrecto de email</p>
+                </div>
+            <?php  } else if ($valor == 3) { ?>
+                <div class="btn btn-danger mb-1">
+                    <p>Algun campo vacio o vacios</p>
+                </div>
+            <?php } ?>
         <?php } ?>
 
         <header class="container header w-100">
