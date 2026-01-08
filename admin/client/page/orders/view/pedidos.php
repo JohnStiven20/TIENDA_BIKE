@@ -42,7 +42,7 @@ if (isset($_SESSION["filtros_pedidos"])) {
 }
 
 
-$clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
+$pedidos = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -122,15 +122,14 @@ $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($clientes as $c): ?>
+                    <?php foreach ($pedidos as $c): ?>
                         <tr>
                             <td><?= htmlspecialchars($c['id']) ?></td>
                             <td><?= htmlspecialchars($c['codigo']) ?></td>
                             <td><?= htmlspecialchars($c['create_time']) ?></td>
                             <td>
                                 <a href="page/orders/view/edit_ped.php?edit= <?= $c["id"] ?> " class="btn btn-sm btnwarning">✏️</a>
-                                <button type="button" class="btn btn-danger" onclick="eliminarCliente(<?= $c['id']; ?>)">🗑️</button>
-                                <a href="page/client/view/edit_cli.php?edit= <?= $c["id"] ?> " class="btn btn-sm btnwarning">📦</a>
+                                <button type="button" class="btn btn-danger" onclick="eliminarPedido(<?= $c['id']; ?>)">🗑️</button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -161,12 +160,12 @@ $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    function eliminarCliente(numcliente) {
+    function eliminarPedido(numPedido) {
         const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
         modal.show();
 
         document.getElementById('confirmDeleteBtn').onclick = () => {
-            window.location.href = './page/client/services/delete.php?eliminar=' + numcliente;
+            window.location.href = './page/orders/services/delete.php?eliminar=' + numPedido;
             modal.hide();
         };
     }

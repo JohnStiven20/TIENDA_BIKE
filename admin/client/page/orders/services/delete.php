@@ -1,6 +1,4 @@
 <?php
 
 
-if (isset($_GET["eliminar"]) &&  empty($_GET["eliminar"])) {
-     
-}
+$sql_eliminar_pedido = "DELETE  FROM pedidos WHERE id";
