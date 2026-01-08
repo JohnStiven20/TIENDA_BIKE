@@ -50,18 +50,4 @@
             </p>
         </div>
     </a>
-
-    
-    <a href="/ud2/TIENDA_BIKE/admin/client/dashboard.php?page=imagen" class="nav-card text-decoration-none text-dark">
-        <div class="card nav-card-body text-center p-4">
-            <div class="d-flex justify-content-center">
-                <img src="/TIENDA_BIKE/admin/img/imagen.png"
-                    alt="Clientes"
-                    class="nav-card-icon mb-3">
-            </div>
-            <h5 class="mb-1">Imagenes</h5>
-            <p class="text-muted small mb-0">Gestión de imagenes</p>
-        </div>
-    </a>
-
 </div>

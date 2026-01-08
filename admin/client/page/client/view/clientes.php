@@ -188,6 +188,7 @@ $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
 
 <script>
     function eliminarCliente(numcliente) {
+        
         const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
         modal.show();
 

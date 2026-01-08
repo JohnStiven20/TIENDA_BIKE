@@ -114,9 +114,6 @@ $page = $_GET['page'] ?? 'inicio';
                     <li class="opcion">
                         <a href="dashboard.php?page=inicio">Inicio</a>
                     </li>
-                     <li class="opcion">
-                        <a href="dashboard.php?page=imagen">Imagenes</a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -132,13 +129,10 @@ $page = $_GET['page'] ?? 'inicio';
                     include "page/client/view/clientes.php";
                     break;
                 case 'pedidos':
-                    include "page/orders/pedidos.php";
+                    include "page/orders/view/pedidos.php";
                     break;
                 case 'productos':
                     include "page/product/view/productos.php";
-                    break;
-                 case 'imagen':
-                    include "page/image/imagePage.php";
                     break;
                 default:
                     include("page/start/startPage.php");

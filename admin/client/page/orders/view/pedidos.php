@@ -3,18 +3,40 @@
 
 $consulta = "";
 
+$estado = false;
+$condiciones = [];
+
 
 if (isset($_SESSION["filtros_pedidos"])) {
 
-    if (isset($_SESSION["filtros_pedidos"]["id_cliente"])) {
-
+    if (isset($_SESSION["filtros_pedidos"]["id_cliente"]) && empty($_SESSION["filtros_pedidos"]["id_cliente"]) == false) {
+        $estado = true;
         $consulta = "SELECT pedidos.* FROM pedidos " .
             " JOIN clientes ON pedidos.id_cliente = clientes.id " .
             " WHERE clientes.id = '" .  $_SESSION["filtros_pedidos"]["id_cliente"]  . "'";
+    } 
 
-    } else {
+    if (isset($_SESSION["filtros_pedidos"]["email"])  && empty($_SESSION["filtros_pedidos"]["email"]) == false) {
+        $estado = true;
+        $condiciones[] = " clientes.email = '" .  $_SESSION["filtros_pedidos"]["email"]  . "' ";
+    }
+
+    if (isset($_SESSION["filtros_pedidos"]["codigo_pedido"]) && empty($_SESSION["filtros_pedidos"]["codigo_pedido"]) == false) {
+        $estado = true;
+        $condiciones[] = " pedidos.codigo = '" .  $_SESSION["filtros_pedidos"]["codigo_pedido"]  . "' ";
+    }
+
+    if (count($condiciones) > 0 && $estado == true) {
+
+    
+        $consulta = "SELECT pedidos.* FROM pedidos " .
+            " JOIN clientes ON pedidos.id_cliente = clientes.id " .
+            " WHERE " . implode(" AND ", $condiciones);
+
+    } else if ($estado == false) {
         $consulta = "SELECT * FROM pedidos ORDER BY id ASC LIMIT 20";
     }
+
 } else {
     $consulta = "SELECT * FROM pedidos ORDER BY id ASC LIMIT 20";
 }
@@ -48,7 +70,7 @@ $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
                 <?php } ?>
             <?php } ?>
             <div class="row mb-3 me-2 float-end">
-                <a href="page/client/view/insert_cli.php" class="btn btn-success">➕ Nuevo Cliente</a>
+                <a href="page/orders/view/insert_ped.php" class="btn btn-success">➕ Nuevo Pedido</a>
             </div>
 
             <div class="card p-3 mb-3 text-center">
@@ -76,8 +98,13 @@ $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <input type="hidden" name="filtros" value="1">
                     <div class="col-12 text-end">
+
                         <button class="btn btn-success" style="width: 100px !important;" type="submit">Filtrar</button>
-                        <a href="page/orders/services/limpiar_filtros.php" class="btn btn-dark">Limpiar filtros</a>
+
+                        <?php if ($estado) { ?>
+                            <a href="page/orders/services/limpiar_filtros.php" class="btn btn-dark">Limpiar filtros</a>
+                        <?php } ?>
+
                     </div>
                 </form>
             </div>
@@ -101,7 +128,7 @@ $clientes = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
                             <td><?= htmlspecialchars($c['codigo']) ?></td>
                             <td><?= htmlspecialchars($c['create_time']) ?></td>
                             <td>
-                                <a href="page/client/view/edit_cli.php?edit= <?= $c["id"] ?> " class="btn btn-sm btnwarning">✏️</a>
+                                <a href="page/orders/view/edit_ped.php?edit= <?= $c["id"] ?> " class="btn btn-sm btnwarning">✏️</a>
                                 <button type="button" class="btn btn-danger" onclick="eliminarCliente(<?= $c['id']; ?>)">🗑️</button>
                                 <a href="page/client/view/edit_cli.php?edit= <?= $c["id"] ?> " class="btn btn-sm btnwarning">📦</a>
                             </td>

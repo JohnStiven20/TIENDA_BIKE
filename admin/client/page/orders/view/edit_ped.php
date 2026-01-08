@@ -20,11 +20,12 @@ include("../../../security/session.php");
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
     <style>
+
         .header {
             background-color: blue !important;
             color: white !important;
         }
-        
+
     </style>
 
 </head>
@@ -44,10 +45,10 @@ include("../../../security/session.php");
             if (mysqli_num_rows($res) > 0) {
                 $cliente = mysqli_fetch_assoc($res);
             } else {
-                header(header: "Location: ../../../dashboard.php?page=clientes&cli=3");
+                header(header: "Location: ../../../dashboard.php?page=pedidos&cli=3");
             }
         } else {
-            header("Location: ../../../dashboard.php?page=clientes&cli=3");
+            header("Location: ../../../dashboard.php?page=pedidos&cli=3");
             exit;
         }
 
@@ -74,7 +75,7 @@ include("../../../security/session.php");
         <?php } ?>
 
         <header class="container header w-100">
-            <h1 class="p-2">Actualizar Cliente</h1>
+            <h1 class="p-2">Actualizar Pedido</h1>
         </header>
         <form class="container d-flex flex-column p-3 gap-3 w-100" action="../services/update.php" method="post">
             <div class="flex-row d-flex gap-5 w-100 mb-3 mt-3">
