@@ -6,7 +6,6 @@ $consulta = "";
 $estado = false;
 $condiciones = [];
 
-
 if (isset($_SESSION["filtros_pedidos"])) {
 
     if (isset($_SESSION["filtros_pedidos"]["id_cliente"]) && empty($_SESSION["filtros_pedidos"]["id_cliente"]) == false) {
@@ -128,7 +127,7 @@ $pedidos = $pdo->query($consulta)->fetchAll(PDO::FETCH_ASSOC);
                             <td><?= htmlspecialchars($c['codigo']) ?></td>
                             <td><?= htmlspecialchars($c['create_time']) ?></td>
                             <td>
-                                <a href="page/orders/view/edit_ped.php?edit= <?= $c["id"] ?> " class="btn btn-sm btnwarning">✏️</a>
+                                <a href="page/orders/view/edit_ped.php?edit= <?= $c["id"]?>" class="btn btn-sm btnwarning">✏️</a>
                                 <button type="button" class="btn btn-danger" onclick="eliminarPedido(<?= $c['id']; ?>)">🗑️</button>
                             </td>
                         </tr>

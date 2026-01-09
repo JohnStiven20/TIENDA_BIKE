@@ -16,7 +16,6 @@ $productos = mysqli_fetch_all($res_traer_productos, MYSQLI_ASSOC);
 
 
 
-
 ?>
 
 <!DOCTYPE html>

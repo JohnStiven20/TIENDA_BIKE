@@ -4,11 +4,16 @@ include("../../../../db/db.inc");
 
 $id_cliente = $_POST["cliente_id"];
 
-$sql_crear_pedido = "INSERT INTO pedidos(codigo, id_cliente) VALUES('PED-011',$id_cliente)";
+$sql_crear_pedido = "INSERT INTO pedidos(codigo, id_cliente) VALUES('1',$id_cliente)";
 
 mysqli_query($con, $sql_crear_pedido);
 
 $id_pedido = mysqli_insert_id($con);
+
+$codigo = 'PED-' . str_pad($id_pedido, 3, '0', STR_PAD_LEFT);
+
+$sql = "UPDATE pedidos SET codigo = '$codigo' WHERE id = $id_pedido";
+mysqli_query($con, $sql);
 
 $productos = $_POST["productos"];
 $cantidades = $_POST["cantidades"];
